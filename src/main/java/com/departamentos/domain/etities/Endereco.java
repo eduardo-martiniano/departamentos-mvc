@@ -1,6 +1,6 @@
 package com.departamentos.domain.etities;
 
-import com.departamentos.enus.Uf;
+import com.departamentos.enums.Uf;
 import lombok.Data;
 
 import javax.persistence.*;

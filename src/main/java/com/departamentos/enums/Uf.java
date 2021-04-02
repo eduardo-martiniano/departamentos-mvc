@@ -1,4 +1,4 @@
-package com.departamentos.enus;
+package com.departamentos.enums;
 
 public enum Uf {
 

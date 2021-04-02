@@ -1,36 +1,63 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}">
-<body>
-	    <section class="layout-content" layout:fragment="corpo">
-	
-	        <nav class="navbar navbar-expand-md bg-light">
-	            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-	                <ul class="navbar-nav mr-auto">
-	                    <li class="nav-item active">
-	                        <i class="oi oi-caret-right"></i>
-	                        <span>Cadastrar Departamentos</span>
-	                    </li>
-	                </ul>
-	                <a class="btn btn-primary btn-md" href="/departamentos/listar" role="button">
-	                    <span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
-	                    <span>Listar Departamentos</span>
-	                </a>
-	            </div>
-	        </nav>
-	
-	        <div class="container" id="cadastro">
-	            <form action="/departamentos/salvar" method="POST">
-	                <div class="form-row">
-	                    <div class="form-group col-md-6">
-	                        <label for="nome">Departamento</label>
-	                        <input type="text" class="form-control" id="nome"
-	                               placeholder="Nome Departamento" autofocus="autofocus" name="nome" value=""/>
-	                    </div>
-	                </div>
-	                <input type="hidden" id="id" name="id" value=""/>
-	                <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
-	            </form>
-	        </div>
-	    </section>
-</body>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout}">
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
+	<body>
+		<section class="layout-content" layout:fragment="corpo">
+			<nav class="navbar navbar-expand-md bg-light">
+				<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<i class="oi oi-caret-right"></i>
+							<span>Cadastrar Departamentos</span>
+						</li>
+					</ul>
+					<a class="btn btn-primary btn-md" href="/departamentos/listar" role="button">
+						<span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
+						<span>Listar Departamentos</span>
+					</a>
+				</div>
+			</nav>
+			<div class="container" id="cadastro">
+				<form th:action="@{/departamentos/cadastrar}" th:object="${departamento}" method="POST">
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="nome">Departamento</label>
+							<input type="text" class="form-control" id="nome"
+								   placeholder="Nome Departamento" required autofocus="autofocus" name="nome" th:field="*{nome}"/>
+						</div>
+					</div>
+					<input type="hidden" id="id" name="id" value=""/>
+					<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+				</form>
+				<div th:if="${mensagem != null}">
+					<input type="hidden" id="sucesso" th:value="${mensagem.sucesso}">
+					<input type="hidden" id="mensagem" th:value="${mensagem.mensagem}">
+				</div>
+			</div>
+		</section>
+	</body>
 </html>
+<script>
+
+	$(document).ready(function () {
+		if (document.getElementById("mensagem") != undefined){
+			exibirMensagem();
+		}
+	});
+
+	function exibirMensagem() {
+		var sucesso = document.getElementById("sucesso").value;
+		var mensagem = document.getElementById("mensagem").value;
+		if (sucesso != undefined && sucesso) {
+			toastr.success(mensagem, 'Success');
+		}
+	}
+
+</script>
