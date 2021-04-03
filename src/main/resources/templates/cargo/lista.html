@@ -1,5 +1,14 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}">
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout}">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
 <body>
 	
 	    <section class="layout-content" layout:fragment="corpo">
@@ -31,154 +40,88 @@
 	                    </tr>
 	                    </thead>
 	                    <tbody>
-	                    <tr>
-	                        <td>1</td>
-	                        <td>Auxiliar Contábil</td>
-	                        <td>Contabilidade</td>
+	                    <tr th:each="cargo : ${cargos}" th:id="${cargo.id}">
+	                        <td th:text="${cargo.id}"></td>
+	                        <td th:id="'cargo-nome'+${cargo.id}" th:text="${cargo.nome}"></td>
+	                        <td th:text="${cargo.departamento.nome}"></td>
 	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/1" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
+								<button id="" type="button" class="btn btn-info btn-sm" data-toggle="modal" th:data-target="'#cargo-editar-'+${cargo.id}">
+									<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
+								</button>
+								<button id="btn_departamentos/excluir/3" type="button" class="btn btn-danger btn-sm" data-toggle="modal" th:data-target="'#cargo-'+${cargo.id}">
+									<span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
+								</button>
 	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>2</td>
-	                        <td>Auxiliar Administrativo</td>
-	                        <td>Administração</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/2" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>3</td>
-	                        <td>Contador</td>
-	                        <td>Contabilidade</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/3" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>4</td>
-	                        <td>Adminitrador</td>
-	                        <td>Administração</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/4" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>5</td>
-	                        <td>Programado PHP</td>
-	                        <td>Tecnologia da Informação</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/5" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>6</td>
-	                        <td>Desenvolvedor Java Jr.</td>
-	                        <td>Tecnologia da Informação</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/6" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>7</td>
-	                        <td>Desenvolvedor Java Pleno</td>
-	                        <td>Tecnologia da Informação</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/7" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>8</td>
-	                        <td>Desenvolvedor Java Senior</td>
-	                        <td>Tecnologia da Informação</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/8" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>9</td>
-	                        <td>Auxiliar de RH</td>
-	                        <td>Recursos Humanos</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/9" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>10</td>
-	                        <td>Coordenador de RH</td>
-	                        <td>Recursos Humanos</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/10" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>11</td>
-	                        <td>Psicologo</td>
-	                        <td>Recursos Humanos</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/cargos/editar/11" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button type="button" class="btn btn-danger btn-sm" >
-	                                <span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
+							<!--modal excluir-->
+							<div class="modal fade" th:id="'cargo-'+${cargo.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Excluir cargo</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											Deseja realmente exlcuir esse cargo?
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+											<button type="button" class="btn btn-danger" th:onclick="'excluir(' + ${cargo.id} + ')'">Confirmar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!--modal editar-->
+							<div class="modal fade" th:id="'cargo-editar-'+${cargo.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabell">Editar cargo</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<form action="/cargos/editar" method="POST">
+											<input type="hidden" name="id" th:value="${cargo.id}">
+											<div class="modal-body">
+												<input type="text" class="form-control" th:id="'editar-nome-'+${cargo.id}" required autofocus="autofocus" name="nome" th:value="${cargo.nome}"/>
+											</div>
+											<div class="modal-body">
+												<select id="cargo" required class="form-control" name="departamento">
+													<option th:text="${cargo.departamento.nome}" th:value="${cargo.departamento.id}" selected></option>
+													<option th:each="departamento : ${departamentos}" th:text="${departamento.nome}" th:value="${departamento.id}" name="departamento" ></option>
+												</select>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+												<button type="submit" class="btn btn-success" >Confirmar</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
 	                    </tr>
 	                    </tbody>
 	                </table>
 	            </div>
 	        </div>
-	        
 	    </section>
 </body>
-</html>		
+</html>
+<script>
+
+	function excluir(cargoId) {
+		var url = 'http://localhost:8080/cargos/excluir/';
+		$.ajax({
+			method: "DELETE",
+			url: url+cargoId,
+			data: {}
+		})
+		document.getElementById(cargoId).style.display = "none";
+		$('#cargo-'+cargoId).modal('hide');
+		toastr.success("Excluido com sucesso!");
+	}
+
+</script>
