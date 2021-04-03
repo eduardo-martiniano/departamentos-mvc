@@ -1,5 +1,14 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}">
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout}">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
 	<body>
 		<section class="layout-content" layout:fragment="corpo">
 			<nav class="navbar navbar-expand-md bg-light">
@@ -27,58 +36,94 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr>
-							<td>3</td>
-							<td>Administração</td>
-							<td colspan="2">
-								<a class="btn btn-info btn-sm" href="/departamentos/editar/3" role="button">
-									<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-								</a>
-								<button id="btn_departamentos/excluir/3" type="button" class="btn btn-danger btn-sm">
-									<span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Contabilidade</td>
-							<td colspan="2">
-								<a class="btn btn-info btn-sm" href="/departamentos/editar/2" role="button">
-									<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-								</a>
-								<button type="button" class="btn btn-danger btn-sm">
-									<span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>Recursos Humanos</td>
-							<td colspan="2">
-								<a class="btn btn-info btn-sm" href="/departamentos/editar/1" role="button">
-									<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-								</a>
-								<button type="button" class="btn btn-danger btn-sm" >
-									<span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>Tecnologia da Informação</td>
-							<td colspan="2">
-								<a class="btn btn-info btn-sm" href="/departamentos/editar/4" role="button">
-									<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-								</a>
-								<button type="button" class="btn btn-danger btn-sm" >
-									<span class="oi oi-circle-x" title="Exclusão desabilitada" aria-hidden="true"></span>
-								</button>
-							</td>
-						</tr>
+							<tr th:each="departamento : ${departamentos}" th:id="${departamento.id}">
+								<td th:text="${departamento.id}"></td>
+								<td th:text="${departamento.nome}"></td>
+								<td colspan="2">
+									<button id="" type="button" class="btn btn-info btn-sm" data-toggle="modal" th:data-target="'#departamento-editar-'+${departamento.id}">
+										<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
+									</button>
+									<button id="btn_departamentos/excluir/3" type="button" class="btn btn-danger btn-sm" data-toggle="modal" th:data-target="'#departamento-'+${departamento.id}">
+										<span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
+									</button>
+								</td>
+								<!--modal excluir-->
+								<div class="modal fade" th:id="'departamento-'+${departamento.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Excluir departamento</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												Deseja realmente exlcuir o departamento?
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+												<button type="button" class="btn btn-danger" th:onclick="'excluir(' + ${departamento.id} + ')'">Confirmar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!--modal editar-->
+								<div class="modal fade" th:id="'departamento-editar-'+${departamento.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabell">Editar departamento</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<input type="text" class="form-control" th:id="'editar-nome-'+${departamento.id}" required autofocus="autofocus" name="nome" th:value="${departamento.nome}"/>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+												<button type="button" class="btn btn-success" th:onclick="'editar(' + ${departamento.id} + ')'">Confirmar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</section>
 	</body>
-</html>		
+</html>
+<script>
+
+	function excluir(departamentoId) {
+		console.log(departamentoId);
+		var url = 'http://localhost:8080/departamentos/excluir/';
+		$.ajax({
+			method: "DELETE",
+			url: url+departamentoId,
+			data: {}
+		})
+		 document.getElementById(departamentoId).style.display = "none";
+		$('#departamento-'+departamentoId).modal('hide');
+		toastr.success("Excluido com sucesso");
+	}
+
+	function editar(departamentoId) {
+		var url = 'http://localhost:8080/departamentos/';
+		$.ajax({
+			//async: true,
+			method: "PUT",
+			url: url+departamentoId,
+			data: {
+				nome: document.getElementById('editar-nome-'+departamentoId).value
+			}
+		})
+		setTimeout(function() {
+			window.location.href = "http://localhost:8080/departamentos/listar";
+		}, 500);
+	}
+
+</script>
