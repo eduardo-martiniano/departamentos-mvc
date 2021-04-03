@@ -38,7 +38,7 @@
 						<tbody>
 							<tr th:each="departamento : ${departamentos}" th:id="${departamento.id}">
 								<td th:text="${departamento.id}"></td>
-								<td th:text="${departamento.nome}"></td>
+								<td th:id="'departamento-nome'+${departamento.id}" th:text="${departamento.nome}"></td>
 								<td colspan="2">
 									<button id="" type="button" class="btn btn-info btn-sm" data-toggle="modal" th:data-target="'#departamento-editar-'+${departamento.id}">
 										<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
@@ -108,7 +108,7 @@
 		})
 		 document.getElementById(departamentoId).style.display = "none";
 		$('#departamento-'+departamentoId).modal('hide');
-		toastr.success("Excluido com sucesso");
+		toastr.success("Excluido com sucesso!");
 	}
 
 	function editar(departamentoId) {
@@ -121,9 +121,10 @@
 				nome: document.getElementById('editar-nome-'+departamentoId).value
 			}
 		})
-		setTimeout(function() {
-			window.location.href = "http://localhost:8080/departamentos/listar";
-		}, 500);
+
+		$('#departamento-editar-'+departamentoId).modal('hide');
+		document.getElementById('departamento-nome'+departamentoId).textContent = document.getElementById('editar-nome-'+departamentoId).value;
+		toastr.success("Editado com sucesso!");
 	}
 
 </script>
