@@ -1,5 +1,14 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}">
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout}">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
 <body>
 	    <section class="layout-content" layout:fragment="corpo">
 	        <nav class="navbar navbar-expand-md bg-light">
@@ -108,130 +117,166 @@
 	                    </tr>
 	                    </thead>
 	                    <tbody>
-	                    <tr>
-	                        <td>1</td>
-	                        <td>Jorge da Silva</td>
-	                        <td>R$ 3.500,99</td>
-	                        <td>Recursos Humanos</td>
-	                        <td>Auxiliar de RH</td>
+	                    <tr th:each="funcionario : ${funcionarios}" th:id="${funcionario.id}">
+	                        <td th:text="${funcionario.id}"></td>
+	                        <td th:text="${funcionario.nome}"></td>
+	                        <td th:text="|R$ ${{funcionario.salario}}|"></td>
+	                        <td th:text="${funcionario.cargo.departamento.nome}"></td>
+	                        <td th:text="${funcionario.cargo.nome}"></td>
 	                        <td>
 	                            <button type="button" class="btn btn-secondary btn-sm" data-container="body"
 	                                    data-toggle="popover" data-placement="top"
-	                                    data-content="Rua das Oliveiras, 260 Fundos - Centro, Porto Alegre - RS - 97050-015">
+	                                    th:attr="data-content=${#strings.concat(
+	                                    funcionario.endereco.logradouro, ', ',
+	                                    funcionario.endereco.numero, ' ',
+	                                    funcionario.endereco.complemento, ' - ',
+	                                    funcionario.endereco.bairro, ', ',
+	                                    funcionario.endereco.cidade, ' - ',
+	                                    funcionario.endereco.uf.sigla, ' - ',
+	                                    funcionario.endereco.cep
+	                                    )}">
 	                                <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
 	                            </button>
 	                        </td>
-	                        <td>01/10/2014</td>
-	                        <td></td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/funcionarios/editar/1" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
+	                        <td th:text="${#dates.format(funcionario.dataEntrada, 'dd-MM-yyyy')}"></td>
+							<td th:text="${funcionario.dataSaida == null ? 'Sem registro' : #dates.format(funcionario.dataSaida, 'dd-MM-yyyy')}"></td>
+
+							<td colspan="2">
+								<button id="" type="button" class="btn btn-info btn-sm" data-toggle="modal" th:data-target="'#funcionario-editar-'+${funcionario.id}">
+									<span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
+								</button>
 	                            <button id="btn_funcionarios/excluir/1" type="button" class="btn btn-danger btn-sm"
-	                                    data-toggle="modal" data-target="#myModal">
+	                                    data-toggle="modal" th:data-target="'#funcionario-'+${funcionario.id}">
 	                                <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
 	                            </button>
 	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>2</td>
-	                        <td>Ana Maria Lindoval</td>
-	                        <td>R$ 3.560,70</td>
-	                        <td>Administração</td>
-	                        <td>Auxiliar Administrativo</td>
-	                        <td>
-	                            <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-	                                    data-toggle="popover" data-placement="top"
-	                                    data-content="Av. dos Palmares, 320  - Ribeirão, Canoas - RS - 98050-908">
-	                                <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                        <td>01/08/2014</td>
-	                        <td>02/03/2015</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/funcionarios/editar/2" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button id="btn_funcionarios/excluir/2" type="button" class="btn btn-danger btn-sm"
-	                                    data-toggle="modal" data-target="#myModal">
-	                                <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>3</td>
-	                        <td>Juan Perez</td>
-	                        <td>R$ 4.060,99</td>
-	                        <td>Tecnologia da Informação</td>
-	                        <td>Desenvolvedor Java Jr.</td>
-	                        <td>
-	                            <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-	                                    data-toggle="popover" data-placement="top"
-	                                    data-content="Rua Senador Cassiano do Nascimento, 135 AP. 106 - Noroeste, Porto Alegre - RS - 90798-099">
-	                                <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                        <td>05/01/2015</td>
-	                        <td></td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/funcionarios/editar/3" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button id="btn_funcionarios/excluir/3" type="button" class="btn btn-danger btn-sm"
-	                                    data-toggle="modal" data-target="#myModal">
-	                                <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>4</td>
-	                        <td>Marcio Silva</td>
-	                        <td>R$ 2.890,99</td>
-	                        <td>Contabilidade</td>
-	                        <td>Auxiliar Contábil</td>
-	                        <td>
-	                            <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-	                                    data-toggle="popover" data-placement="top"
-	                                    data-content="Av. Maracanã, 309 AP. 108 - Maracanã, Rio de Janeiro - RJ - 91050-980">
-	                                <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                        <td>18/10/2013</td>
-	                        <td>06/09/2015</td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/funcionarios/editar/4" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button id="btn_funcionarios/excluir/4" type="button" class="btn btn-danger btn-sm"
-	                                    data-toggle="modal" data-target="#myModal">
-	                                <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                    </tr>
-	                    <tr>
-	                        <td>5</td>
-	                        <td>Joana Prado</td>
-	                        <td>R$ 3.804,00</td>
-	                        <td>Recursos Humanos</td>
-	                        <td>Coordenador de RH</td>
-	                        <td>
-	                            <button type="button" class="btn btn-secondary btn-sm" data-container="body"
-	                                    data-toggle="popover" data-placement="top"
-	                                    data-content="Rua Gomes Carneiro, 909  - Centro, Porto Alegre - RS - 98080-999">
-	                                <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
-	                        <td>01/05/2015</td>
-	                        <td></td>
-	                        <td colspan="2">
-	                            <a class="btn btn-info btn-sm" href="/funcionarios/editar/5" role="button">
-	                                <span class="oi oi-brush" title="Editar" aria-hidden="true"></span>
-	                            </a>
-	                            <button id="btn_funcionarios/excluir/5" type="button" class="btn btn-danger btn-sm"
-	                                    data-toggle="modal" data-target="#myModal">
-	                                <span class="oi oi-circle-x" title="Excluir" aria-hidden="true"></span>
-	                            </button>
-	                        </td>
+							<!--modal excluir-->
+							<div class="modal fade" th:id="'funcionario-'+${funcionario.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Excluir funcionario</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											Deseja realmente exlcuir esse funcionario?
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+											<button type="button" class="btn btn-danger" th:onclick="'excluir(' + ${funcionario.id} + ')'">Confirmar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!--modal editar-->
+							<div class="modal fade" th:id="'funcionario-editar-'+${funcionario.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabell">Editar funcionario</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<form action="/funcionarios/editar" method="POST">
+											<input type="hidden" name="id" th:value="${funcionario.id}">
+											<div class="modal-body">
+												<div class="form-row">
+													<div class="form-group col-md-6">
+														<label>Nome do Funcionário</label>
+														<input type="text" class="form-control" th:id="'editar-nome-'+${funcionario.id}" required placeholder="Nome Completo"
+															   autofocus="autofocus" name="nome" th:value="${funcionario.nome}"/>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="salario">Salário Bruto</label>
+														<input type="text" class="form-control" id="salario" data-mask="#.##0,00"
+															   data-mask-reverse="true" required th:value="${funcionario.salario}" name="salario"/>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="dataEntrada">Data de entrada</label>
+														<input type="date" class="form-control" required id="dataEntrada" name="dataEntrada"/>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="dataSaida">Data de saída</label>
+														<input type="date" class="form-control" id="dataSaida" name="dataSaida" required/>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="cargo">Cargo</label>
+														<select id="cargo" class="form-control">
+															<option th:value="${funcionario.cargo.id}" th:text="${funcionario.cargo.nome}"></option>
+															<option th:each="cargo : ${cargos}" th:text="${cargo.nome}" th:value="${cargo.id}"></option>
+														</select>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="cidade">Cidade</label>
+														<input type="text" class="form-control" id="cidade" th:value="${funcionario.endereco.cidade}" />
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="logradouro">Logradouro</label>
+														<input type="text" class="form-control" id="logradouro" th:value="${funcionario.endereco.logradouro}"/>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="numero">Número</label>
+														<input type="text" class="form-control" id="numero" th:value="${funcionario.endereco.numero}"/>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="complemento">Complemento</label>
+														<input type="text" class="form-control" id="complemento" th:value="${funcionario.endereco.complemento}"/>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="bairro">Bairro</label>
+														<input type="text" class="form-control" id="bairro" th:value="${funcionario.endereco.bairro}"/>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+													<div class="form-group col-md-6">
+														<label for="cargo1">UF</label>
+														<select id="cargo1" class="form-control">
+															<option selected th:text="${funcionario.endereco.uf.sigla}" th:value="${funcionario.endereco.uf}"></option>
+															<option th:each="uf : ${ufs}" th:text="${uf.name()}" th:value="${uf}"></option>
+														</select>
+														<div class="invalid-feedback">
+
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+												<button type="submit" class="btn btn-success" >Confirmar</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
 	                    </tr>
 	                    </tbody>
 	                </table>
@@ -239,4 +284,19 @@
 	        </div>
 	    </section>
 </body>
-</html>		
+</html>
+<script>
+
+	function excluir(funcionarioId) {
+		var url = 'http://localhost:8080/funcionarios/excluir/';
+		$.ajax({
+			method: "DELETE",
+			url: url+funcionarioId,
+			data: {}
+		})
+		document.getElementById(funcionarioId).style.display = "none";
+		$('#funcionario-'+funcionarioId).modal('hide');
+		toastr.success("Excluido com sucesso!");
+	}
+
+</script>
